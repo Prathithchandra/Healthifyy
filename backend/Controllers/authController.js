@@ -15,6 +15,7 @@ const generateToken = (user) => {
 };
 
 export const register = async (req, res) => {
+  console.log("inside registartion");
   const { email, password, name, role, photo, gender } = req.body;
   try {
     let user = null;
@@ -63,13 +64,16 @@ export const register = async (req, res) => {
       .status(200)
       .json({ success: true, message: "User successfully created" });
   } catch (err) {
+    console.error(err);
     res
       .status(500)
-      .json({ success: false, message: "Internal server error, Try again" });
+      .json({ success: false, message: "Internal server error in register, Try again" });
   }
+  
 };
 
 export const login = async (req, res) => {
+  console.log("isnde login module");
   const { email, password } = req.body;
   try {
     let user = null;
@@ -114,9 +118,9 @@ export const login = async (req, res) => {
       role,
     });
   } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "Failed to login",
-    });
+    console.error(err);
+    res
+      .status(500)
+      .json({ success: false, message: "Internal server error in register, Try again" });
   }
 };

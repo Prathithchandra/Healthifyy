@@ -7,42 +7,37 @@ import authRoute from './Routes/auth.js'
 import userRoute from './Routes/user.js'
 import doctorRoute from './Routes/doctor.js'
 import reviewRoute from './Routes/review.js'
+import appform from './Routes/appform.js'
 
 dotenv.config()
 
-const express = require("express")
 const app = express()
-const path = require("path")
-
-app.listen(3000,()=>{
-    console.log("Port Connected")
-})
-
 const port = process.env.PORT || 8000
 
 const corsOptions = {
-    origin:true
+    origin: true
 }
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send('Api is working')
+    console.log("working");
 })
 
-//Database Connection
+// Database Connection
 mongoose.set('strictQuery', false)
-const connectDB = async()=>{
-    try{
-        await mongoose.connect(process.env.MONGO_URL,{
-            useNewUrlParser : true,
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URL, {
+            useNewUrlParser: true,
             useUnifiedTopology: true,
         })
         console.log('MongoDB database is connected')
-    }catch(err){
+    } catch (err) {
         console.log('MongoDB database connection failed')
     }
 }
 
-//middleware
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
@@ -50,8 +45,10 @@ app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/doctors', doctorRoute);
 app.use('/api/v1/review', reviewRoute);
+app.use('/api/v1/appform', appform);
 
-app.listen(port,()=>{
+
+app.listen(port, () => {
     connectDB();
-    console.log("Server is running on port" + port);
+    console.log("Server is running on port " + port);
 });

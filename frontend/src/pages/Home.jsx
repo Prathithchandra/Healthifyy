@@ -38,7 +38,9 @@ const Home = () => {
                   dedicated team is committed to fostering longevity and
                   improving the quality of life for every individual we serve.
                 </p>
+                <Link to="/appform">
                 <button className="btn">Request an Appointment</button>
+                </Link>
               </div>
 
               <div className="mt-[30px] lg:mt-[70px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px]">

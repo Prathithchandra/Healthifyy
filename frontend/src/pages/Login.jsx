@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../config";
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -10,13 +12,51 @@ const Login = () => {
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      const res = await fetch(`${BASE_URL}/auth/login`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+
+      // Handle successful login response here (e.g., set tokens, redirect)
+      // Example: localStorage.setItem('token', data.token);
+      // Redirect to dashboard or another page
+      // history.push('/dashboard');
+      //this.props.history.push("/");
+      //return redirect("/register");
+      alert("Login successfull by Login page");
+
+    } catch (err) {
+      // Handle login error (e.g., show error message)
+      toast.error(err.message);
+    }
+  };
+
+
+
+
+
+
+
   return (
     <section className="px-5 lg:px-0">
       <div className="w-full max-w-[570px] mx-auto rounded-lg shadow-md md:p-10">
         <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
           Hello! <span className="text-primaryColor">Welcome</span> Back🎉
         </h3>
-        <form className="py-4 md:py-0">
+        <form className="py-4 md:py-0" onSubmit={submitHandler}>
           <div className="mb-5">
             <input
               type="email"
