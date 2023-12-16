@@ -16,7 +16,11 @@ import About from "../components/Header/About";
 import ServiceList from "../components/Header/ServiceList";
 import DoctorsList from "../components/Header/DoctorsList";
 import FaqList from "../components/Header/FaqList";
+import { useContext } from "react";
+import { authContext } from "../context/AuthContext"
+
 const Home = () => {
+  const {user,role,token}=useContext(authContext);
   return (
     <>
       {/*=====hero section start ======*/}
@@ -38,9 +42,13 @@ const Home = () => {
                   dedicated team is committed to fostering longevity and
                   improving the quality of life for every individual we serve.
                 </p>
-                <Link to="/appform">
-                <button className="btn">Request an Appointment</button>
-                </Link>
+                <div>
+      {token && user && (
+        <Link to="/appform">
+          <button className="btn">Request an Appointment</button>
+        </Link>
+      )}
+    </div>
               </div>
 
               <div className="mt-[30px] lg:mt-[70px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px]">
