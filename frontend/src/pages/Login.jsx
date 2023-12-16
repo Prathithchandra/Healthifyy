@@ -1,7 +1,10 @@
 import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState ,useContext} from "react";
+import { Link,useNavigate } from "react-router-dom";
 import { BASE_URL } from "../config";
+import {authContext} from '../context/AuthContext.jsx';
+import { toast } from "react-toastify";
+import HashLoader from "react-spinners/HashLoader.js";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,8 +15,12 @@ const Login = () => {
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const [loading, setLoading] = useState(false);
+  const navigate=useNavigate();
+  const {dispatch}=useContext(authContext);
   const submitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
       const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -23,27 +30,27 @@ const Login = () => {
         },
         body: JSON.stringify(formData),
       });
-
-      const data = await res.json();
+      const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message);
+        throw new Error(result.message);
       }
-
-      // Handle successful login response here (e.g., set tokens, redirect)
-      // Example: localStorage.setItem('token', data.token);
-      // Redirect to dashboard or another page
-      // history.push('/dashboard');
-      //this.props.history.push("/");
-      //return redirect("/register");
-      alert("Login successfull by Login page");
-
+      dispatch({
+        type:"LOGIN_SUCCESS",
+        payload:{
+          user: result.data,
+          token:result.token,
+          role:result.role
+        },
+      })
+      setLoading(false);
+      toast.success("Login successful!");
+      navigate("/home");
     } catch (err) {
-      // Handle login error (e.g., show error message)
       toast.error(err.message);
+      setLoading(false);
     }
   };
-
 
 
 
@@ -82,7 +89,7 @@ const Login = () => {
               type="submit"
               className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
             >
-              Login
+             {loading ?<HashLoader size={25} color="#fff"/> :'Login'}
             </button>
           </div>
           <p className="mt-5 text-textColor text-center">

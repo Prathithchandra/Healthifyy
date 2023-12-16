@@ -1,3 +1,4 @@
+import Booking from "../BookingSchema.js";
 import Doctor from "../DoctorSchema.js";
 
 export const updateDoctor = async (req, res) => {
@@ -80,5 +81,24 @@ export const getAllDoctor = async (req, res) => {
       .select("-password");
   } catch (err) {
     res.status(404).json({ success: false, message: "Not found" });
+  }
+};
+
+export const getDoctorProfile = async (req, res) => {
+  const doctorId = req.userId;
+  try {
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ success: false, message: "doctor Not found" });
+    }
+    const { password, ...rest } = doctor._doc; // Fixed variable name from 'user' to 'doctor'
+    const appointments=await Booking.find({doctor:doctorId})
+    return res.status(200).json({
+      success: true,
+      message: "Profile Info is Getting",
+      data: { ...rest,appointments },
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Something went wrong..." });
   }
 };
