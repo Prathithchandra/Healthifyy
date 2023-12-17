@@ -54,6 +54,7 @@ export const getSingleDoctor = async (req, res) => {
 };
 
 export const getAllDoctor = async (req, res) => {
+  console.log("insude getalldoc");
   try {
     const { query } = req.query;
     let doctors;
@@ -71,18 +72,18 @@ export const getAllDoctor = async (req, res) => {
       );
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Doctors found",
-        data: doctors,
-      })
-      .select("-password");
+    // Perform any necessary data manipulations here
+
+    res.status(200).json({
+      success: true,
+      message: "Doctors found",
+      data: doctors,
+    });
   } catch (err) {
     res.status(404).json({ success: false, message: "Not found" });
   }
 };
+
 
 export const getDoctorProfile = async (req, res) => {
   const doctorId = req.userId;

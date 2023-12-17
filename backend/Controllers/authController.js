@@ -74,18 +74,20 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   console.log("isnde login module");
-  const { email, password } = req.body;
+  const { email } = req.body;
   try {
     let user = null;
 
     const patient = await User.findOne({ email });
-    const doctor = await User.findOne({ email });
+    const doctor = await Doctor.findOne({ email });
 
     if (patient) {
       user = patient;
+      //alert('user is patient '+user)
     }
     if (doctor) {
       user = doctor;
+      //alert('user is doctor '+user)
     }
 
     //check if user exists or not

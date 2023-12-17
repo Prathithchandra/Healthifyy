@@ -7,6 +7,8 @@ const YourSchema = new mongoose.Schema({
   email: String,
   date: Date,
   reason: String,
+  doctorId:String,
+  status:String
 });
 
 // Create a model based on the schema

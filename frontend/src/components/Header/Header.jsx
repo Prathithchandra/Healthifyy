@@ -38,14 +38,16 @@ const Header = () => {
       }
     })
   }
-  useEffect(()=>{
+  useEffect(() => {
     handleStickyHeader();
 
-    return ()=>window.removeEventListener('scroll',handleStickyHeader);
-  });
-  const toggleMenu = ()=> menuRef.current.classList.toggle('show__menu')
+    return () => window.removeEventListener('scroll', handleStickyHeader);
+  }, []);
+
+  const toggleMenu = () => menuRef.current.classList.toggle('show__menu');
+
   return (
-    <header className="header flex items-center ref={headerRef}">
+    <header className="header flex items-center" ref={headerRef}>
       <div className="container">
         <div className="flex items-center justify-between">
           <div>
@@ -55,18 +57,21 @@ const Header = () => {
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
             <ul className="menu flex items-center gap-[2.7rem]">
               {navLinks.map((link, index) => (
-                <li key={index}>
-                  <NavLink
-                    to={link.path}
-                    className={(navClass) =>
-                      navClass.isActive
-                        ? "text-primaryColor text-[16px] leading-7 font-[600]"
-                        : "text-textColor text-[16px] leading-7 font-[500] hover:text-blue"
-                    }
-                  >
-                    {link.display}
-                  </NavLink>
-                </li>
+                // Conditionally render "Find a Doctor" menu item based on the user's role
+                !(user &&role === "doctor" && link.path === "/doctors") && (
+                  <li key={index}>
+                    <NavLink
+                      to={link.path}
+                      className={(navClass) =>
+                        navClass.isActive
+                          ? "text-primaryColor text-[16px] leading-7 font-[600]"
+                          : "text-textColor text-[16px] leading-7 font-[500] hover:text-blue"
+                      }
+                    >
+                      {link.display}
+                    </NavLink>
+                  </li>
+                )
               ))}
             </ul>
           </div>
