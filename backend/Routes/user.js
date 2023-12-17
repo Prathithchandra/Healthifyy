@@ -19,6 +19,6 @@ router.delete("/:id", authenticate, restrict(['patient']), deleteUser);
 
 //below routes are for profile
 router.get("/profile/me", authenticate, restrict(['patient']), getUserProfile);
-router.get("/appointments/my-appointments", authenticate, restrict(['patient']), getMyAppointments);
+//router.get("/appointments/my-appointments", authenticate, getMyAppointments);
 
 export default router;

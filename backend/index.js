@@ -8,6 +8,8 @@ import userRoute from './Routes/user.js'
 import doctorRoute from './Routes/doctor.js'
 import reviewRoute from './Routes/review.js'
 import appform from './Routes/appform.js'
+import contact from './Routes/contact.js'
+import booking from './Routes/booking.js';
 
 dotenv.config()
 
@@ -46,6 +48,9 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/doctors', doctorRoute);
 app.use('/api/v1/review', reviewRoute);
 app.use('/api/v1/appform', appform);
+app.use('/api/v1/contact',contact);
+app.use('/api/v1/appointments/', booking);
+   
 
 
 app.listen(port, () => {

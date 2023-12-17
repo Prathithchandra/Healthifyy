@@ -43,7 +43,7 @@ const Home = () => {
                   improving the quality of life for every individual we serve.
                 </p>
                 <div>
-      {token && user && (
+      {token && user &&role==='patient'&& (
         <Link to="/appform">
           <button className="btn">Request an Appointment</button>
         </Link>
